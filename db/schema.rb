@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_04_135509) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_04_141503) do
   create_table "code_breaker_codes", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Color"
     t.bigint "code_breaker_id", null: false
@@ -175,6 +175,33 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_135509) do
     t.index ["user_id"], name: "index_sea_battles_on_user_id"
   end
 
+  create_table "ten_grand_scores", charset: "utf8mb4", force: :cascade do |t|
+    t.string "Dice", limit: 20
+    t.integer "Category", default: 0
+    t.integer "Score", default: 0
+    t.bigint "ten_grand_turn_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ten_grand_turn_id"], name: "index_ten_grand_scores_on_ten_grand_turn_id"
+  end
+
+  create_table "ten_grand_turns", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "Score", default: 0
+    t.bigint "ten_grand_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ten_grand_id"], name: "index_ten_grand_turns_on_ten_grand_id"
+  end
+
+  create_table "ten_grands", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "Status", default: 1
+    t.integer "Score", default: 0
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_ten_grands_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "UserName", limit: 30, null: false
     t.string "password_digest"
@@ -209,4 +236,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_135509) do
   add_foreign_key "sea_battle_ships", "sea_battles"
   add_foreign_key "sea_battle_turns", "sea_battles"
   add_foreign_key "sea_battles", "users"
+  add_foreign_key "ten_grand_scores", "ten_grand_turns"
+  add_foreign_key "ten_grand_turns", "ten_grands"
+  add_foreign_key "ten_grands", "users"
 end
