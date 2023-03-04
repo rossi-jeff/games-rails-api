@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_04_141503) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
   create_table "code_breaker_codes", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Color"
     t.bigint "code_breaker_id", null: false
@@ -217,6 +217,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_141503) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "yacht_turns", charset: "utf8mb4", force: :cascade do |t|
+    t.string "RollOne", limit: 20, default: ""
+    t.string "RollTwo", limit: 20, default: ""
+    t.string "RollThree", limit: 20, default: ""
+    t.integer "Category"
+    t.integer "Score", default: 0
+    t.bigint "yacht_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["yacht_id"], name: "index_yacht_turns_on_yacht_id"
+  end
+
+  create_table "yachts", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "Total", default: 0
+    t.integer "NumTurns", default: 0
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_yachts_on_user_id"
+  end
+
   add_foreign_key "code_breaker_codes", "code_breakers"
   add_foreign_key "code_breaker_guess_colors", "code_breaker_guesses"
   add_foreign_key "code_breaker_guess_keys", "code_breaker_guesses"
@@ -239,4 +260,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_141503) do
   add_foreign_key "ten_grand_scores", "ten_grand_turns"
   add_foreign_key "ten_grand_turns", "ten_grands"
   add_foreign_key "ten_grands", "users"
+  add_foreign_key "yacht_turns", "yachts"
+  add_foreign_key "yachts", "users"
 end
