@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_04_032835) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_04_042706) do
   create_table "code_breaker_codes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "Color"
     t.bigint "code_breaker_id", null: false
@@ -53,6 +53,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_032835) do
     t.index ["user_id"], name: "index_code_breakers_on_user_id"
   end
 
+  create_table "concentrations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "Status", default: 1
+    t.integer "Moves", default: 0
+    t.integer "Matched", default: 0
+    t.integer "Elapsed", default: 0
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_concentrations_on_user_id"
+  end
+
+  create_table "free_cells", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "Status", default: 1
+    t.integer "Moves", default: 0
+    t.integer "Elapsed", default: 0
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_free_cells_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "UserName", limit: 30, null: false
     t.string "password_digest"
@@ -66,4 +87,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_032835) do
   add_foreign_key "code_breaker_guess_keys", "code_breaker_guesses"
   add_foreign_key "code_breaker_guesses", "code_breakers"
   add_foreign_key "code_breakers", "users"
+  add_foreign_key "concentrations", "users"
+  add_foreign_key "free_cells", "users"
 end
