@@ -1,8 +1,8 @@
 class CreateUsers < ActiveRecord::Migration[7.0]
   def change
     create_table :users do |t|
-      t.string :UserName, limit: 30
-      t.string :HashedPassWord
+      t.string :UserName, limit: 30, null: false, index: { unique: true }
+      t.string :password_digest
 
       t.timestamps
     end
