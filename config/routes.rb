@@ -6,5 +6,8 @@ Rails.application.routes.draw do
 	namespace :api do
 		match '/auth/register' => 'auth#register', :via => :post, :as => :register 
 		match '/auth/login' => 'auth#login', :via => :post, :as => :login 
+		resources :code_breaker, :only => [:index,:show,:create] do
+			post 'guess'
+		end
 	end
 end
