@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_04_125632) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_04_131547) do
   create_table "code_breaker_codes", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Color"
     t.bigint "code_breaker_id", null: false
@@ -96,7 +96,32 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_125632) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "word_id", null: false
     t.index ["user_id"], name: "index_guess_words_on_user_id"
+    t.index ["word_id"], name: "index_guess_words_on_word_id"
+  end
+
+  create_table "hang_men", charset: "utf8mb4", force: :cascade do |t|
+    t.string "Correct", default: ""
+    t.string "Wrong", default: ""
+    t.integer "Status", default: 1
+    t.integer "Score", default: 0
+    t.bigint "user_id"
+    t.bigint "word_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_hang_men_on_user_id"
+    t.index ["word_id"], name: "index_hang_men_on_word_id"
+  end
+
+  create_table "klondikes", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "Status"
+    t.integer "Moves"
+    t.integer "Elapsed"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_klondikes_on_user_id"
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
@@ -105,6 +130,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_125632) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["UserName"], name: "index_users_on_UserName", unique: true
+  end
+
+  create_table "words", charset: "utf8mb4", force: :cascade do |t|
+    t.string "Word", limit: 30
+    t.integer "Length", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "code_breaker_codes", "code_breakers"
@@ -117,4 +149,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_125632) do
   add_foreign_key "guess_word_guess_ratings", "guess_word_guesses"
   add_foreign_key "guess_word_guesses", "guess_words"
   add_foreign_key "guess_words", "users"
+  add_foreign_key "guess_words", "words"
+  add_foreign_key "hang_men", "users"
+  add_foreign_key "hang_men", "words"
+  add_foreign_key "klondikes", "users"
 end
