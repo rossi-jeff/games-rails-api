@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_04_131547) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_04_135509) do
   create_table "code_breaker_codes", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Color"
     t.bigint "code_breaker_id", null: false
@@ -124,6 +124,57 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_131547) do
     t.index ["user_id"], name: "index_klondikes_on_user_id"
   end
 
+  create_table "sea_battle_ship_grid_points", charset: "utf8mb4", force: :cascade do |t|
+    t.string "Horizontal", limit: 1
+    t.integer "Vertical"
+    t.bigint "sea_battle_ship_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sea_battle_ship_id"], name: "index_sea_battle_ship_grid_points_on_sea_battle_ship_id"
+  end
+
+  create_table "sea_battle_ship_hits", charset: "utf8mb4", force: :cascade do |t|
+    t.string "Horizontal", limit: 1
+    t.integer "Vertical"
+    t.bigint "sea_battle_ship_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sea_battle_ship_id"], name: "index_sea_battle_ship_hits_on_sea_battle_ship_id"
+  end
+
+  create_table "sea_battle_ships", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "Type"
+    t.integer "Navy"
+    t.integer "Size"
+    t.boolean "Sunk", default: false
+    t.bigint "sea_battle_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sea_battle_id"], name: "index_sea_battle_ships_on_sea_battle_id"
+  end
+
+  create_table "sea_battle_turns", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "ShipType"
+    t.integer "Navy"
+    t.integer "Target"
+    t.string "Horizontal", limit: 1
+    t.integer "Vertical"
+    t.bigint "sea_battle_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sea_battle_id"], name: "index_sea_battle_turns_on_sea_battle_id"
+  end
+
+  create_table "sea_battles", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "Axis", default: 8
+    t.integer "Status", default: 1
+    t.integer "Score", default: 0
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sea_battles_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "UserName", limit: 30, null: false
     t.string "password_digest"
@@ -153,4 +204,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_131547) do
   add_foreign_key "hang_men", "users"
   add_foreign_key "hang_men", "words"
   add_foreign_key "klondikes", "users"
+  add_foreign_key "sea_battle_ship_grid_points", "sea_battle_ships"
+  add_foreign_key "sea_battle_ship_hits", "sea_battle_ships"
+  add_foreign_key "sea_battle_ships", "sea_battles"
+  add_foreign_key "sea_battle_turns", "sea_battles"
+  add_foreign_key "sea_battles", "users"
 end
