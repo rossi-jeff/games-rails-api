@@ -10,8 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_04_042706) do
-  create_table "code_breaker_codes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+ActiveRecord::Schema[7.0].define(version: 2023_03_04_125632) do
+  create_table "code_breaker_codes", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Color"
     t.bigint "code_breaker_id", null: false
     t.datetime "created_at", null: false
@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_042706) do
     t.index ["code_breaker_id"], name: "index_code_breaker_codes_on_code_breaker_id"
   end
 
-  create_table "code_breaker_guess_colors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "code_breaker_guess_colors", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Color"
     t.bigint "code_breaker_guess_id", null: false
     t.datetime "created_at", null: false
@@ -27,7 +27,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_042706) do
     t.index ["code_breaker_guess_id"], name: "index_code_breaker_guess_colors_on_code_breaker_guess_id"
   end
 
-  create_table "code_breaker_guess_keys", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "code_breaker_guess_keys", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Key"
     t.bigint "code_breaker_guess_id", null: false
     t.datetime "created_at", null: false
@@ -35,14 +35,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_042706) do
     t.index ["code_breaker_guess_id"], name: "index_code_breaker_guess_keys_on_code_breaker_guess_id"
   end
 
-  create_table "code_breaker_guesses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "code_breaker_guesses", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "code_breaker_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code_breaker_id"], name: "index_code_breaker_guesses_on_code_breaker_id"
   end
 
-  create_table "code_breakers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "code_breakers", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Status", default: 1
     t.integer "Columns"
     t.integer "Colors"
@@ -53,7 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_042706) do
     t.index ["user_id"], name: "index_code_breakers_on_user_id"
   end
 
-  create_table "concentrations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "concentrations", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Status", default: 1
     t.integer "Moves", default: 0
     t.integer "Matched", default: 0
@@ -64,7 +64,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_042706) do
     t.index ["user_id"], name: "index_concentrations_on_user_id"
   end
 
-  create_table "free_cells", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "free_cells", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Status", default: 1
     t.integer "Moves", default: 0
     t.integer "Elapsed", default: 0
@@ -74,7 +74,32 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_042706) do
     t.index ["user_id"], name: "index_free_cells_on_user_id"
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "guess_word_guess_ratings", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "Rating"
+    t.bigint "guess_word_guess_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guess_word_guess_id"], name: "index_guess_word_guess_ratings_on_guess_word_guess_id"
+  end
+
+  create_table "guess_word_guesses", charset: "utf8mb4", force: :cascade do |t|
+    t.string "Guess", limit: 30
+    t.bigint "guess_word_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["guess_word_id"], name: "index_guess_word_guesses_on_guess_word_id"
+  end
+
+  create_table "guess_words", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "Status", default: 1
+    t.integer "Score", default: 0
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_guess_words_on_user_id"
+  end
+
+  create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "UserName", limit: 30, null: false
     t.string "password_digest"
     t.datetime "created_at", null: false
@@ -89,4 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_042706) do
   add_foreign_key "code_breakers", "users"
   add_foreign_key "concentrations", "users"
   add_foreign_key "free_cells", "users"
+  add_foreign_key "guess_word_guess_ratings", "guess_word_guesses"
+  add_foreign_key "guess_word_guesses", "guess_words"
+  add_foreign_key "guess_words", "users"
 end
