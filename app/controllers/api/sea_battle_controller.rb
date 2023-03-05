@@ -1,7 +1,11 @@
 class Api::SeaBattleController < ApplicationController
 
 	def index
-		Rails.logger.info params
+		limit = filter_params[:Limit].to_i
+		offset = filter_params[:Offset].to_i
+		items = SeaBattle.where.not(Status: 'Playing').includes(:user).order(Score: :desc).offset(offset).limit(limit)
+		count = SeaBattle.where.not(Status: 'Playing').count
+		render json: { Items: items, Count: count, Offset: offset, Limit: limit }, status: :ok
 	end
 
 	def show 
@@ -35,10 +39,65 @@ class Api::SeaBattleController < ApplicationController
 		else
 			turn = opponent_fire(fire_params[:sea_battle_id])
 		end
+		update_sea_battle_status(fire_params[:sea_battle_id])
 		render json: turn, status: :ok
 	end
 
 	private
+
+	def update_sea_battle_status(id)
+		status = 'Playing'
+		sunk = {
+			Player: true,
+			Opponent: true
+		}
+		sea_battle = SeaBattle.find(id)
+		return nil if !sea_battle
+		
+		perMiss = 5;
+		perHit = 10;
+		ships = SeaBattleShip.where(sea_battle_id: id)
+		ships.each do | ship |
+			if ship.Navy == 'Player'
+				sunk[:Player] = false if !ship.Sunk
+			else
+				sunk[:Opponent] = false if !ship.Sunk
+			end
+		end
+		if sunk[:Opponent]
+			status = 'Won'
+		elsif sunk[:Player]
+			status = 'Lost'
+		end
+		if status != 'Playing'
+			maxTurns = sea_battle.Axis * sea_battle.Axis * 2;
+			score = status == 'Won' ? maxTurns * perMiss : 0;
+			turns = SeaBattleTurn.where(sea_battle_id: id)
+			turns.each do | turn |
+				score -= perMiss
+				if turn.Navy == 'Player'
+					case turn.Target
+					when 'Miss'
+						score -= perMiss
+					when 'Hit'
+						score += perHit
+					when 'Sunk'
+						score += perHit * 2
+					end
+				else
+					case turn.Target
+					when 'Miss'
+						score += perMiss
+					when 'Hit'
+						score -= perHit
+					when 'Sunk'
+						score -= perHit * 2
+					end
+				end
+			end
+			SeaBattle.update(id, Score: score, Status: status)
+		end
+	end
 
 	def player_fire(id, horizontal, vertical)
 		target = 'Miss'
@@ -196,7 +255,7 @@ class Api::SeaBattleController < ApplicationController
 			direction = directions[rand(4)]
 			counter = 0
 			while counter < size
-				break if horizontal[idxH] == nil || vertical[idxV] == nil
+				break if  idxH < 0 || idxV < 0 || idxH >= sea_battle.Axis || idxV >= sea_battle.Axis
 				break if occupied.find { |p| p[:Horizontal] == horizontal[idxH] && p[:Vertical] == vertical[idxV] }
 				point = {
 					Horizontal: horizontal[idxH],
@@ -229,6 +288,10 @@ class Api::SeaBattleController < ApplicationController
 
 	def fire_params 
 		params.permit(:Navy, :sea_battle_id, :Horizontal, :Vertical, :sea_battle => {})
+	end
+
+	def filter_params
+		params.permit(:Offset,:Limit)
 	end
 
 end

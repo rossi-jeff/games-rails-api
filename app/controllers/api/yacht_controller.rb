@@ -1,7 +1,11 @@
 class Api::YachtController < ApplicationController
 
     def index
-        Rails.logger.info params
+        limit = filter_params[:Limit].to_i
+				offset = filter_params[:Offset].to_i
+				items = yacht.includes(:user).order(Total: :desc).offset(offset).limit(limit)
+				count = Yacht.count
+				render json: { Items: items, Count: count, Offset: offset, Limit: limit }, status: :ok
     end
 
     def show
@@ -193,5 +197,9 @@ class Api::YachtController < ApplicationController
     def score_params
         params.permit(:TurnId, :Category, :yacht_id, :yacht => {})
     end
+
+		def filter_params
+			params.permit(:Offset,:Limit)
+		end
     
 end
