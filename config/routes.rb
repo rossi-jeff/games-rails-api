@@ -13,5 +13,9 @@ Rails.application.routes.draw do
 			post 'roll'
 			post 'score'
 		end
+		resources :sea_battle, :only => [:index,:show,:create] do
+			post 'ship'
+			post 'fire'
+		end
 	end
 end
