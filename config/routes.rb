@@ -9,5 +9,9 @@ Rails.application.routes.draw do
 		resources :code_breaker, :only => [:index,:show,:create] do
 			post 'guess'
 		end
+		resources :yacht, :only => [:index,:show,:create] do
+			post 'roll'
+			post 'score'
+		end
 	end
 end

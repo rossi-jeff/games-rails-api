@@ -1,5 +1,5 @@
 class YachtTurn < ApplicationRecord
-	enum Category:, {
+	enum Category: {
 		BigStraight: 0,
 		Choice: 1,
 		Fives: 2,
@@ -13,6 +13,6 @@ class YachtTurn < ApplicationRecord
 		Twos: 10,
 		Yacht: 11
 	}
-
-  belongs_to :yacht
+	
+	belongs_to :yacht
 end
