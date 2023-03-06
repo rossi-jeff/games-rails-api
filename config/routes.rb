@@ -20,5 +20,12 @@ Rails.application.routes.draw do
 		resources :concentration, :only => [:index,:show,:create,:update]
 		resources :klondike, :only => [:index,:show,:create,:update]
 		resources :free_cell, :only => [:index,:show,:create,:update]
+		resources :ten_grand, :only => [:index,:show,:create] do
+			post 'roll'
+			post 'score'
+			collection do
+				post 'options'
+			end
+		end
 	end
 end
