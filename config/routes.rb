@@ -18,5 +18,6 @@ Rails.application.routes.draw do
 			post 'fire'
 		end
 		resources :concentration, :only => [:index,:show,:create,:update]
+		resources :klondike, :only => [:index,:show,:create,:update]
 	end
 end
