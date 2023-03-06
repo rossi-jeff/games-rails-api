@@ -28,6 +28,12 @@ Rails.application.routes.draw do
 			end
 		end
 		get '/word/:id', :to => 'word#show'
-		get '/word/random', :to => 'word#random'
+		post '/word/random', :to => 'word#random'
+		resources :guess_word, :only => [:index,:show,:create] do
+			post 'guess'
+			collection do
+				post 'hint' 
+			end
+		end
 	end
 end

@@ -17,7 +17,7 @@ class Api::WordController < ApplicationController
 		else
 			conds = []
 		end
-		word = Word.where(conds).order('RAND()').limit(1)
+		word = Word.where(conds).order('RAND()').limit(1).first
 		render json: word, status: :ok
 	end
 
