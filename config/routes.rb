@@ -27,5 +27,7 @@ Rails.application.routes.draw do
 				post 'options'
 			end
 		end
+		get '/word/:id', :to => 'word#show'
+		get '/word/random', :to => 'word#random'
 	end
 end

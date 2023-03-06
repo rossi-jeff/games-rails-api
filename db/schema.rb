@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
-  create_table "code_breaker_codes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "code_breaker_codes", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Color"
     t.bigint "code_breaker_id", null: false
     t.datetime "created_at", null: false
@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["code_breaker_id"], name: "index_code_breaker_codes_on_code_breaker_id"
   end
 
-  create_table "code_breaker_guess_colors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "code_breaker_guess_colors", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Color"
     t.bigint "code_breaker_guess_id", null: false
     t.datetime "created_at", null: false
@@ -27,7 +27,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["code_breaker_guess_id"], name: "index_code_breaker_guess_colors_on_code_breaker_guess_id"
   end
 
-  create_table "code_breaker_guess_keys", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "code_breaker_guess_keys", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Key"
     t.bigint "code_breaker_guess_id", null: false
     t.datetime "created_at", null: false
@@ -35,14 +35,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["code_breaker_guess_id"], name: "index_code_breaker_guess_keys_on_code_breaker_guess_id"
   end
 
-  create_table "code_breaker_guesses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "code_breaker_guesses", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "code_breaker_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["code_breaker_id"], name: "index_code_breaker_guesses_on_code_breaker_id"
   end
 
-  create_table "code_breakers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "code_breakers", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Status", default: 1
     t.integer "Columns"
     t.integer "Colors"
@@ -53,7 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["user_id"], name: "index_code_breakers_on_user_id"
   end
 
-  create_table "concentrations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "concentrations", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Status", default: 1
     t.integer "Moves", default: 0
     t.integer "Matched", default: 0
@@ -64,7 +64,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["user_id"], name: "index_concentrations_on_user_id"
   end
 
-  create_table "free_cells", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "free_cells", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Status", default: 1
     t.integer "Moves", default: 0
     t.integer "Elapsed", default: 0
@@ -74,7 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["user_id"], name: "index_free_cells_on_user_id"
   end
 
-  create_table "guess_word_guess_ratings", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "guess_word_guess_ratings", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Rating"
     t.bigint "guess_word_guess_id", null: false
     t.datetime "created_at", null: false
@@ -82,7 +82,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["guess_word_guess_id"], name: "index_guess_word_guess_ratings_on_guess_word_guess_id"
   end
 
-  create_table "guess_word_guesses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "guess_word_guesses", charset: "utf8mb4", force: :cascade do |t|
     t.string "Guess", limit: 30
     t.bigint "guess_word_id", null: false
     t.datetime "created_at", null: false
@@ -90,7 +90,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["guess_word_id"], name: "index_guess_word_guesses_on_guess_word_id"
   end
 
-  create_table "guess_words", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "guess_words", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Status", default: 1
     t.integer "Score", default: 0
     t.bigint "user_id"
@@ -101,7 +101,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["word_id"], name: "index_guess_words_on_word_id"
   end
 
-  create_table "hang_men", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "hang_men", charset: "utf8mb4", force: :cascade do |t|
     t.string "Correct", default: ""
     t.string "Wrong", default: ""
     t.integer "Status", default: 1
@@ -114,7 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["word_id"], name: "index_hang_men_on_word_id"
   end
 
-  create_table "klondikes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "klondikes", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Status"
     t.integer "Moves"
     t.integer "Elapsed"
@@ -124,7 +124,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["user_id"], name: "index_klondikes_on_user_id"
   end
 
-  create_table "sea_battle_ship_grid_points", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "sea_battle_ship_grid_points", charset: "utf8mb4", force: :cascade do |t|
     t.string "Horizontal", limit: 1
     t.integer "Vertical"
     t.bigint "sea_battle_ship_id", null: false
@@ -133,7 +133,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["sea_battle_ship_id"], name: "index_sea_battle_ship_grid_points_on_sea_battle_ship_id"
   end
 
-  create_table "sea_battle_ship_hits", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "sea_battle_ship_hits", charset: "utf8mb4", force: :cascade do |t|
     t.string "Horizontal", limit: 1
     t.integer "Vertical"
     t.bigint "sea_battle_ship_id", null: false
@@ -142,7 +142,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["sea_battle_ship_id"], name: "index_sea_battle_ship_hits_on_sea_battle_ship_id"
   end
 
-  create_table "sea_battle_ships", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "sea_battle_ships", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Type"
     t.integer "Navy"
     t.integer "Size"
@@ -153,7 +153,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["sea_battle_id"], name: "index_sea_battle_ships_on_sea_battle_id"
   end
 
-  create_table "sea_battle_turns", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "sea_battle_turns", charset: "utf8mb4", force: :cascade do |t|
     t.integer "ShipType"
     t.integer "Navy"
     t.integer "Target"
@@ -165,7 +165,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["sea_battle_id"], name: "index_sea_battle_turns_on_sea_battle_id"
   end
 
-  create_table "sea_battles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "sea_battles", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Axis", default: 8
     t.integer "Status", default: 1
     t.integer "Score", default: 0
@@ -175,7 +175,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["user_id"], name: "index_sea_battles_on_user_id"
   end
 
-  create_table "ten_grand_scores", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "ten_grand_scores", charset: "utf8mb4", force: :cascade do |t|
     t.string "Dice", limit: 20
     t.integer "Category", default: 0
     t.integer "Score", default: 0
@@ -185,7 +185,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["ten_grand_turn_id"], name: "index_ten_grand_scores_on_ten_grand_turn_id"
   end
 
-  create_table "ten_grand_turns", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "ten_grand_turns", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Score", default: 0
     t.bigint "ten_grand_id", null: false
     t.datetime "created_at", null: false
@@ -193,7 +193,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["ten_grand_id"], name: "index_ten_grand_turns_on_ten_grand_id"
   end
 
-  create_table "ten_grands", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "ten_grands", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Status", default: 1
     t.integer "Score", default: 0
     t.bigint "user_id"
@@ -202,7 +202,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["user_id"], name: "index_ten_grands_on_user_id"
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "UserName", limit: 30, null: false
     t.string "password_digest"
     t.datetime "created_at", null: false
@@ -210,14 +210,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["UserName"], name: "index_users_on_UserName", unique: true
   end
 
-  create_table "words", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "words", charset: "utf8mb4", force: :cascade do |t|
     t.string "Word", limit: 30
     t.integer "Length", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "yacht_turns", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "yacht_turns", charset: "utf8mb4", force: :cascade do |t|
     t.string "RollOne", limit: 20, default: ""
     t.string "RollTwo", limit: 20, default: ""
     t.string "RollThree", limit: 20, default: ""
@@ -229,7 +229,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_142552) do
     t.index ["yacht_id"], name: "index_yacht_turns_on_yacht_id"
   end
 
-  create_table "yachts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "yachts", charset: "utf8mb4", force: :cascade do |t|
     t.integer "Total", default: 0
     t.integer "NumTurns", default: 0
     t.bigint "user_id"
