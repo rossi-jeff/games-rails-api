@@ -19,5 +19,6 @@ Rails.application.routes.draw do
 		end
 		resources :concentration, :only => [:index,:show,:create,:update]
 		resources :klondike, :only => [:index,:show,:create,:update]
+		resources :free_cell, :only => [:index,:show,:create,:update]
 	end
 end
