@@ -1,33 +1,32 @@
 class Api::HangManController < ApplicationController
+		before_action :authenticate_user, only: [:create]
 
     def index 
-		limit = filter_params[:Limit].to_i
-		offset = filter_params[:Offset].to_i
-		items = HangMan.where.not(Status: 'Playing').order(Score: :desc).offset(offset).limit(limit)
-		count = HangMan.where.not(Status: 'Playing').count
-		render json: { Items: items, Count: count, Offset: offset, Limit: limit }, include: [:user,:word], status: :ok
-	end
+			limit = filter_params[:Limit].to_i
+			offset = filter_params[:Offset].to_i
+			items = HangMan.where.not(Status: 'Playing').order(Score: :desc).offset(offset).limit(limit)
+			count = HangMan.where.not(Status: 'Playing').count
+			render json: { Items: items, Count: count, Offset: offset, Limit: limit }, include: [:user,:word], status: :ok
+		end
 
     def show
-        Rails.logger.info params
         hang_man = HangMan.find(params[:id])
         render json: hang_man, include: [:word,:user], status: :ok
     end
 
     def create
-        Rails.logger.info params
-        hang_man = HangMan.new({
-            word_id: params[:WordId]
-        })
-        if hang_man.save
-			render json: hang_man, status: :ok
-		else
-			render json: { errors: hang_man.errors.full_messages }, status: 503
-		end
+			hang_man = HangMan.new({
+					word_id: params[:WordId],
+					user_id: @current_user ? @current_user.id : nil
+			})
+			if hang_man.save
+				render json: hang_man, status: :ok
+			else
+				render json: { errors: hang_man.errors.full_messages }, status: 503
+			end
     end
 
     def guess
-        Rails.logger.info guess_params
         hang_man = HangMan.find(guess_params[:hang_man_id])
         if hang_man
             correct = hang_man.Correct.split(',')

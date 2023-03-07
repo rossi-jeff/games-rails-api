@@ -1,11 +1,12 @@
 class Api::FreeCellController < ApplicationController
+		before_action :authenticate_user, only: [:create]
 
     def index
         limit = filter_params[:Limit].to_i
 		offset = filter_params[:Offset].to_i
 		items = FreeCell.where.not(Status: 'Playing').includes(:user).order(Moves: :desc).offset(offset).limit(limit)
 		count = FreeCell.where.not(Status: 'Playing').count
-		render json: { Items: items, Count: count, Offset: offset, Limit: limit }, status: :ok
+		render json: { Items: items, Count: count, Offset: offset, Limit: limit }, include: [:user], status: :ok
     end
 
     def show
@@ -14,7 +15,9 @@ class Api::FreeCellController < ApplicationController
     end
 
     def create
-        free_cell = FreeCell.new
+        free_cell = FreeCell.new({
+					user_id: @current_user ? @current_user.id : nil
+				})
         if free_cell.save
             render json: free_cell, status: :ok
         else
