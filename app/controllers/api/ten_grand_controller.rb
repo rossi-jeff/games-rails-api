@@ -1,11 +1,12 @@
 class Api::TenGrandController < ApplicationController
+	before_action :authenticate_user, only: [:create]
 
 	def index
 		limit = filter_params[:Limit].to_i
 		offset = filter_params[:Offset].to_i
 		items = TenGrand.where.not(Status: 'Playing').includes(:user).order(Score: :desc).offset(offset).limit(limit)
 		count = TenGrand.where.not(Status: 'Playing').count
-		render json: { Items: items, Count: count, Offset: offset, Limit: limit }, status: :ok
+		render json: { Items: items, Count: count, Offset: offset, Limit: limit }, include: [:user], status: :ok
 	end
 
 	def show
@@ -14,7 +15,9 @@ class Api::TenGrandController < ApplicationController
 	end
 
 	def create 
-		ten_grand = TenGrand.new
+		ten_grand = TenGrand.new({
+			user_id: @current_user ? @current_user.id : nil
+		})
 		if ten_grand.save
 				render json: ten_grand, status: :ok
 		else

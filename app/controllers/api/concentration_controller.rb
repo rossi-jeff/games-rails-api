@@ -1,4 +1,5 @@
 class Api::ConcentrationController < ApplicationController
+		before_action :authenticate_user, only: [:create]
 
     def index
         limit = filter_params[:Limit].to_i
@@ -14,7 +15,9 @@ class Api::ConcentrationController < ApplicationController
     end
 
     def create 
-        concentration = Concentration.new
+        concentration = Concentration.new({
+					user_id: @current_user ? @current_user.id : nil
+				})
         if concentration.save
             render json: concentration, status: :ok
         else

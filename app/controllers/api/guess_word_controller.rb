@@ -1,4 +1,5 @@
 class Api::GuessWordController < ApplicationController
+	before_action :authenticate_user, only: [:create]
 
 	def index 
 		limit = filter_params[:Limit].to_i
@@ -10,12 +11,13 @@ class Api::GuessWordController < ApplicationController
 
 	def show 
 		guess_word = GuessWord.find(params[:id])
-		render json: guess_word, include: [:guesses => {:include => [:ratings]}], status: :ok
+		render json: guess_word, include: [:user, :guesses => {:include => [:ratings]}], status: :ok
 	end
 
 	def create 
 		guess_word = GuessWord.new({
-			word_id: params[:WordId]
+			word_id: params[:WordId],
+			user_id: @current_user ? @current_user.id : nil
 		})
 		if guess_word.save
 			render json: guess_word, status: :ok

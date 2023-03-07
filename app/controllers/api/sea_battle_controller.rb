@@ -1,11 +1,12 @@
 class Api::SeaBattleController < ApplicationController
+	before_action :authenticate_user, only: [:create]
 
 	def index
 		limit = filter_params[:Limit].to_i
 		offset = filter_params[:Offset].to_i
 		items = SeaBattle.where.not(Status: 'Playing').includes(:user).order(Score: :desc).offset(offset).limit(limit)
 		count = SeaBattle.where.not(Status: 'Playing').count
-		render json: { Items: items, Count: count, Offset: offset, Limit: limit }, status: :ok
+		render json: { Items: items, Count: count, Offset: offset, Limit: limit }, include: [:user], status: :ok
 	end
 
 	def show 
@@ -15,7 +16,8 @@ class Api::SeaBattleController < ApplicationController
 	
 	def create 
 		sea_battle = SeaBattle.new({
-			Axis: sea_battle_params[:Axis]
+			Axis: sea_battle_params[:Axis],
+			user_id: @current_user ? @current_user.id : nil
 		})
 		if sea_battle.save
 			render json: sea_battle, status: :ok

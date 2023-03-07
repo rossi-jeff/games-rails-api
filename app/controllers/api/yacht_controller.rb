@@ -1,11 +1,12 @@
 class Api::YachtController < ApplicationController
+		before_action :authenticate_user, only: [:create]
 
     def index
         limit = filter_params[:Limit].to_i
 				offset = filter_params[:Offset].to_i
 				items = Yacht.includes(:user).where(NumTurns: 12).order(Total: :desc).offset(offset).limit(limit)
 				count = Yacht.where(NumTurns: 12).count
-				render json: { Items: items, Count: count, Offset: offset, Limit: limit }, status: :ok
+				render json: { Items: items, Count: count, Offset: offset, Limit: limit }, include: [:user], status: :ok
     end
 
     def show
@@ -15,7 +16,9 @@ class Api::YachtController < ApplicationController
     end
 
     def create
-        yacht = Yacht.new
+        yacht = Yacht.new({
+					user_id: @current_user ? @current_user.id : nil
+				})
         if yacht.save
             render json: yacht, status: :ok
         else
