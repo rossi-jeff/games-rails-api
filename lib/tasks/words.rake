@@ -6,7 +6,7 @@ namespace :words do
 		wordList = IO.readlines(fileName)
 		wordList.each do | word |
 			word = word.scrub.strip
-			if word.size >= 4 && word.size <= 30 && word.match?(/[a-zA-Z]/)
+			if word.size >= 4 && word.size <= 30 && !word.match?(/[^a-zA-Z]/)
 				Word.create({
 					Word: word,
 					Length: word.size
