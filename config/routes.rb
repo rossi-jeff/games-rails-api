@@ -35,5 +35,8 @@ Rails.application.routes.draw do
 				post 'hint' 
 			end
 		end
+		resources :hang_man, :only => [:index,:show,:create] do
+			post 'guess'
+		end
 	end
 end
