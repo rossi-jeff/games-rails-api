@@ -1,5 +1,5 @@
 class Api::CodeBreakerController < ApplicationController
-	before_action :authenticate_user, only: [:create]
+	before_action :authenticate_user, only: [:create, :progress]
 
 	def index
 		limit = filter_params[:Limit].to_i
@@ -7,6 +7,14 @@ class Api::CodeBreakerController < ApplicationController
 		items = CodeBreaker.where.not(Status: 'Playing').includes(:user).order(Score: :desc).offset(offset).limit(limit)
 		count = CodeBreaker.where.not(Status: 'Playing').count
 		render json: { Items: items, Count: count, Offset: offset, Limit: limit }, include: [:user], status: :ok
+	end
+
+	def progress
+		code_breakers = []
+		if @current_user
+			code_breakers = CodeBreaker.where(Status: 'Playing', user_id: @current_user.id)
+		end
+		render json: code_breakers, status: :ok
 	end
 
 	def show
@@ -19,6 +27,7 @@ class Api::CodeBreakerController < ApplicationController
 		code_breaker = CodeBreaker.new({
 			Columns: code_breaker_params[:Columns],
 			Colors: colors.size,
+			Available: colors.join(','),
 			user_id: @current_user ? @current_user.id : nil
 		})
 		if code_breaker.save

@@ -8,6 +8,9 @@ Rails.application.routes.draw do
 		match '/auth/login' => 'auth#login', :via => :post, :as => :login 
 		resources :code_breaker, :only => [:index,:show,:create] do
 			post 'guess'
+			collection do
+				get 'progress'
+			end
 		end
 		resources :yacht, :only => [:index,:show,:create] do
 			post 'roll'
@@ -32,7 +35,8 @@ Rails.application.routes.draw do
 		resources :guess_word, :only => [:index,:show,:create] do
 			post 'guess'
 			collection do
-				post 'hint' 
+				post 'hint'
+				get 'progress'
 			end
 		end
 		resources :hang_man, :only => [:index,:show,:create] do

@@ -1,0 +1,75 @@
+                                  Prefix Verb   URI Pattern                                                                                       Controller#Action
+                            api_register POST   /api/auth/register(.:format)                                                                      api/auth#register
+                               api_login POST   /api/auth/login(.:format)                                                                         api/auth#login
+                  api_code_breaker_guess POST   /api/code_breaker/:code_breaker_id/guess(.:format)                                                api/code_breaker#guess
+         progress_api_code_breaker_index GET    /api/code_breaker/progress(.:format)                                                              api/code_breaker#progress
+                  api_code_breaker_index GET    /api/code_breaker(.:format)                                                                       api/code_breaker#index
+                                         POST   /api/code_breaker(.:format)                                                                       api/code_breaker#create
+                        api_code_breaker GET    /api/code_breaker/:id(.:format)                                                                   api/code_breaker#show
+                          api_yacht_roll POST   /api/yacht/:yacht_id/roll(.:format)                                                               api/yacht#roll
+                         api_yacht_score POST   /api/yacht/:yacht_id/score(.:format)                                                              api/yacht#score
+                         api_yacht_index GET    /api/yacht(.:format)                                                                              api/yacht#index
+                                         POST   /api/yacht(.:format)                                                                              api/yacht#create
+                               api_yacht GET    /api/yacht/:id(.:format)                                                                          api/yacht#show
+                     api_sea_battle_ship POST   /api/sea_battle/:sea_battle_id/ship(.:format)                                                     api/sea_battle#ship
+                     api_sea_battle_fire POST   /api/sea_battle/:sea_battle_id/fire(.:format)                                                     api/sea_battle#fire
+                    api_sea_battle_index GET    /api/sea_battle(.:format)                                                                         api/sea_battle#index
+                                         POST   /api/sea_battle(.:format)                                                                         api/sea_battle#create
+                          api_sea_battle GET    /api/sea_battle/:id(.:format)                                                                     api/sea_battle#show
+                 api_concentration_index GET    /api/concentration(.:format)                                                                      api/concentration#index
+                                         POST   /api/concentration(.:format)                                                                      api/concentration#create
+                       api_concentration GET    /api/concentration/:id(.:format)                                                                  api/concentration#show
+                                         PATCH  /api/concentration/:id(.:format)                                                                  api/concentration#update
+                                         PUT    /api/concentration/:id(.:format)                                                                  api/concentration#update
+                      api_klondike_index GET    /api/klondike(.:format)                                                                           api/klondike#index
+                                         POST   /api/klondike(.:format)                                                                           api/klondike#create
+                            api_klondike GET    /api/klondike/:id(.:format)                                                                       api/klondike#show
+                                         PATCH  /api/klondike/:id(.:format)                                                                       api/klondike#update
+                                         PUT    /api/klondike/:id(.:format)                                                                       api/klondike#update
+                     api_free_cell_index GET    /api/free_cell(.:format)                                                                          api/free_cell#index
+                                         POST   /api/free_cell(.:format)                                                                          api/free_cell#create
+                           api_free_cell GET    /api/free_cell/:id(.:format)                                                                      api/free_cell#show
+                                         PATCH  /api/free_cell/:id(.:format)                                                                      api/free_cell#update
+                                         PUT    /api/free_cell/:id(.:format)                                                                      api/free_cell#update
+                      api_ten_grand_roll POST   /api/ten_grand/:ten_grand_id/roll(.:format)                                                       api/ten_grand#roll
+                     api_ten_grand_score POST   /api/ten_grand/:ten_grand_id/score(.:format)                                                      api/ten_grand#score
+             options_api_ten_grand_index POST   /api/ten_grand/options(.:format)                                                                  api/ten_grand#options
+                     api_ten_grand_index GET    /api/ten_grand(.:format)                                                                          api/ten_grand#index
+                                         POST   /api/ten_grand(.:format)                                                                          api/ten_grand#create
+                           api_ten_grand GET    /api/ten_grand/:id(.:format)                                                                      api/ten_grand#show
+                                     api GET    /api/word/:id(.:format)                                                                           api/word#show
+                         api_word_random POST   /api/word/random(.:format)                                                                        api/word#random
+                    api_guess_word_guess POST   /api/guess_word/:guess_word_id/guess(.:format)                                                    api/guess_word#guess
+               hint_api_guess_word_index POST   /api/guess_word/hint(.:format)                                                                    api/guess_word#hint
+                    api_guess_word_index GET    /api/guess_word(.:format)                                                                         api/guess_word#index
+                                         POST   /api/guess_word(.:format)                                                                         api/guess_word#create
+                          api_guess_word GET    /api/guess_word/:id(.:format)                                                                     api/guess_word#show
+                      api_hang_man_guess POST   /api/hang_man/:hang_man_id/guess(.:format)                                                        api/hang_man#guess
+                      api_hang_man_index GET    /api/hang_man(.:format)                                                                           api/hang_man#index
+                                         POST   /api/hang_man(.:format)                                                                           api/hang_man#create
+                            api_hang_man GET    /api/hang_man/:id(.:format)                                                                       api/hang_man#show
+           rails_postmark_inbound_emails POST   /rails/action_mailbox/postmark/inbound_emails(.:format)                                           action_mailbox/ingresses/postmark/inbound_emails#create
+              rails_relay_inbound_emails POST   /rails/action_mailbox/relay/inbound_emails(.:format)                                              action_mailbox/ingresses/relay/inbound_emails#create
+           rails_sendgrid_inbound_emails POST   /rails/action_mailbox/sendgrid/inbound_emails(.:format)                                           action_mailbox/ingresses/sendgrid/inbound_emails#create
+     rails_mandrill_inbound_health_check GET    /rails/action_mailbox/mandrill/inbound_emails(.:format)                                           action_mailbox/ingresses/mandrill/inbound_emails#health_check
+           rails_mandrill_inbound_emails POST   /rails/action_mailbox/mandrill/inbound_emails(.:format)                                           action_mailbox/ingresses/mandrill/inbound_emails#create
+            rails_mailgun_inbound_emails POST   /rails/action_mailbox/mailgun/inbound_emails/mime(.:format)                                       action_mailbox/ingresses/mailgun/inbound_emails#create
+          rails_conductor_inbound_emails GET    /rails/conductor/action_mailbox/inbound_emails(.:format)                                          rails/conductor/action_mailbox/inbound_emails#index
+                                         POST   /rails/conductor/action_mailbox/inbound_emails(.:format)                                          rails/conductor/action_mailbox/inbound_emails#create
+           rails_conductor_inbound_email GET    /rails/conductor/action_mailbox/inbound_emails/:id(.:format)                                      rails/conductor/action_mailbox/inbound_emails#show
+                                         PATCH  /rails/conductor/action_mailbox/inbound_emails/:id(.:format)                                      rails/conductor/action_mailbox/inbound_emails#update
+                                         PUT    /rails/conductor/action_mailbox/inbound_emails/:id(.:format)                                      rails/conductor/action_mailbox/inbound_emails#update
+                                         DELETE /rails/conductor/action_mailbox/inbound_emails/:id(.:format)                                      rails/conductor/action_mailbox/inbound_emails#destroy
+new_rails_conductor_inbound_email_source GET    /rails/conductor/action_mailbox/inbound_emails/sources/new(.:format)                              rails/conductor/action_mailbox/inbound_emails/sources#new
+   rails_conductor_inbound_email_sources POST   /rails/conductor/action_mailbox/inbound_emails/sources(.:format)                                  rails/conductor/action_mailbox/inbound_emails/sources#create
+   rails_conductor_inbound_email_reroute POST   /rails/conductor/action_mailbox/:inbound_email_id/reroute(.:format)                               rails/conductor/action_mailbox/reroutes#create
+rails_conductor_inbound_email_incinerate POST   /rails/conductor/action_mailbox/:inbound_email_id/incinerate(.:format)                            rails/conductor/action_mailbox/incinerates#create
+                      rails_service_blob GET    /rails/active_storage/blobs/redirect/:signed_id/*filename(.:format)                               active_storage/blobs/redirect#show
+                rails_service_blob_proxy GET    /rails/active_storage/blobs/proxy/:signed_id/*filename(.:format)                                  active_storage/blobs/proxy#show
+                                         GET    /rails/active_storage/blobs/:signed_id/*filename(.:format)                                        active_storage/blobs/redirect#show
+               rails_blob_representation GET    /rails/active_storage/representations/redirect/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations/redirect#show
+         rails_blob_representation_proxy GET    /rails/active_storage/representations/proxy/:signed_blob_id/:variation_key/*filename(.:format)    active_storage/representations/proxy#show
+                                         GET    /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format)          active_storage/representations/redirect#show
+                      rails_disk_service GET    /rails/active_storage/disk/:encoded_key/*filename(.:format)                                       active_storage/disk#show
+               update_rails_disk_service PUT    /rails/active_storage/disk/:encoded_token(.:format)                                               active_storage/disk#update
+                    rails_direct_uploads POST   /rails/active_storage/direct_uploads(.:format)                                                    active_storage/direct_uploads#create
