@@ -3,8 +3,8 @@ class Api::YachtController < ApplicationController
     def index
         limit = filter_params[:Limit].to_i
 				offset = filter_params[:Offset].to_i
-				items = yacht.includes(:user).order(Total: :desc).offset(offset).limit(limit)
-				count = Yacht.count
+				items = Yacht.includes(:user).where(NumTurns: 12).order(Total: :desc).offset(offset).limit(limit)
+				count = Yacht.where(NumTurns: 12).count
 				render json: { Items: items, Count: count, Offset: offset, Limit: limit }, status: :ok
     end
 
@@ -145,7 +145,7 @@ class Api::YachtController < ApplicationController
             }
             options.push(option)
         end
-        options
+        options.sort { |a,b| b[:Score] <=> a[:Score] }
     end
 
     def category_score(category,dice)
@@ -184,10 +184,12 @@ class Api::YachtController < ApplicationController
     def update_yacht_total(id)
         turns = YachtTurn.where(yacht_id: id)
         score = 0
+				count = 0
         turns.each do | turn |
             score += turn.Score
+						count += 1
         end
-        Yacht.update(id, :Total => score)
+        Yacht.update(id, :Total => score, NumTurns: count)
     end
 
     def roll_params

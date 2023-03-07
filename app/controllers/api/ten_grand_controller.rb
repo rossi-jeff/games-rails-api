@@ -1,7 +1,11 @@
 class Api::TenGrandController < ApplicationController
 
-	def index 
-		Rails.logger.info params
+	def index
+		limit = filter_params[:Limit].to_i
+		offset = filter_params[:Offset].to_i
+		items = TenGrand.where.not(Status: 'Playing').includes(:user).order(Score: :desc).offset(offset).limit(limit)
+		count = TenGrand.where.not(Status: 'Playing').count
+		render json: { Items: items, Count: count, Offset: offset, Limit: limit }, status: :ok
 	end
 
 	def show
@@ -412,6 +416,10 @@ class Api::TenGrandController < ApplicationController
 
 	def score_params 
 		params.permit([:Dice => []], [:Options => [:Category,:Score]], :ten_grand_id, :TurnId, :ten_grand => {})
+	end
+
+	def filter_params
+		params.permit(:Offset,:Limit)
 	end
 
 end
