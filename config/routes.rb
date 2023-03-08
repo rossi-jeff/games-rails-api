@@ -19,6 +19,9 @@ Rails.application.routes.draw do
 		resources :sea_battle, :only => [:index,:show,:create] do
 			post 'ship'
 			post 'fire'
+			collection do
+				get 'progress'
+			end
 		end
 		resources :concentration, :only => [:index,:show,:create,:update]
 		resources :klondike, :only => [:index,:show,:create,:update]
@@ -41,6 +44,9 @@ Rails.application.routes.draw do
 		end
 		resources :hang_man, :only => [:index,:show,:create] do
 			post 'guess'
+			collection do
+				get 'progress'
+			end
 		end
 	end
 end
