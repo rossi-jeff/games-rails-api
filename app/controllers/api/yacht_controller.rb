@@ -1,5 +1,5 @@
 class Api::YachtController < ApplicationController
-		before_action :authenticate_user, only: [:create]
+		before_action :authenticate_user, only: [:create, :progress]
 
     def index
         limit = filter_params[:Limit].to_i
@@ -8,6 +8,14 @@ class Api::YachtController < ApplicationController
 				count = Yacht.where(NumTurns: 12).count
 				render json: { Items: items, Count: count, Offset: offset, Limit: limit }, include: [:user], status: :ok
     end
+
+		def progress
+			yachts = []
+			if @current_user
+				yachts = Yacht.where('NumTurns < 12 and user_id = ?', @current_user.id)
+			end
+			render json: yachts, status: :ok
+		end
 
     def show
         Rails.logger.info params

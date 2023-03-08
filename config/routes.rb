@@ -15,6 +15,9 @@ Rails.application.routes.draw do
 		resources :yacht, :only => [:index,:show,:create] do
 			post 'roll'
 			post 'score'
+			collection do
+				get 'progress'
+			end
 		end
 		resources :sea_battle, :only => [:index,:show,:create] do
 			post 'ship'
@@ -31,6 +34,7 @@ Rails.application.routes.draw do
 			post 'score'
 			collection do
 				post 'options'
+				get 'progress'
 			end
 		end
 		get '/word/:id', :to => 'word#show'
