@@ -1,5 +1,5 @@
 class Api::SeaBattleController < ApplicationController
-	before_action :authenticate_user, only: [:create]
+	before_action :authenticate_user, only: [:create, :progress]
 
 	def index
 		limit = filter_params[:Limit].to_i
@@ -7,6 +7,14 @@ class Api::SeaBattleController < ApplicationController
 		items = SeaBattle.where.not(Status: 'Playing').includes(:user).order(Score: :desc).offset(offset).limit(limit)
 		count = SeaBattle.where.not(Status: 'Playing').count
 		render json: { Items: items, Count: count, Offset: offset, Limit: limit }, include: [:user], status: :ok
+	end
+
+	def progress
+		sea_battles = []
+		if @current_user
+			sea_battles = SeaBattle.where(Status: 'Playing', user_id: @current_user.id)
+		end
+		render json: sea_battles, include: [:ships], status: :ok
 	end
 
 	def show 

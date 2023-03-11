@@ -1,13 +1,21 @@
 class Api::HangManController < ApplicationController
-		before_action :authenticate_user, only: [:create]
+		before_action :authenticate_user, only: [:create, :progress]
 
     def index 
-			limit = filter_params[:Limit].to_i
-			offset = filter_params[:Offset].to_i
-			items = HangMan.where.not(Status: 'Playing').order(Score: :desc).offset(offset).limit(limit)
-			count = HangMan.where.not(Status: 'Playing').count
-			render json: { Items: items, Count: count, Offset: offset, Limit: limit }, include: [:user,:word], status: :ok
-		end
+        limit = filter_params[:Limit].to_i
+        offset = filter_params[:Offset].to_i
+        items = HangMan.where.not(Status: 'Playing').order(Score: :desc).offset(offset).limit(limit)
+        count = HangMan.where.not(Status: 'Playing').count
+        render json: { Items: items, Count: count, Offset: offset, Limit: limit }, include: [:user,:word], status: :ok
+    end
+
+    def progress
+        hang_men = []
+        if @current_user
+            hang_men = HangMan.where(Status: 'Playing', user_id: @current_user.id)
+        end
+        render json: hang_men, include: [:word], status: :ok
+    end
 
     def show
         hang_man = HangMan.find(params[:id])
